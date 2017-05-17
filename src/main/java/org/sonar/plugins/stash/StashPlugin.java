@@ -56,7 +56,7 @@ public class StashPlugin extends SonarPlugin {
   public static final String STASH_TASK_SEVERITY_THRESHOLD = "sonar.stash.task.issue.severity.threshold";
   public static final String STASH_INCLUDE_ANALYSIS_OVERVIEW = "sonar.stash.include.overview";
   public static final String STASH_REPOSITORY_ROOT = "sonar.stash.repository.root";
-  public static final String STASH_TROW_ON_ISSUE = "sonar.stash.trow.on.issue";
+  public static final String STASH_TROW_ON_ISSUE = "sonar.stash.throw.on.issue";
 
   @Override
   public List getExtensions() {
