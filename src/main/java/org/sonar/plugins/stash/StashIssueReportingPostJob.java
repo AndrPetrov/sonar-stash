@@ -13,6 +13,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.stash.client.StashClient;
 import org.sonar.plugins.stash.client.StashCredentials;
 import org.sonar.plugins.stash.exceptions.StashConfigurationException;
+import org.sonar.plugins.stash.exceptions.StashException;
 import org.sonar.plugins.stash.issue.StashDiffReport;
 import org.sonar.plugins.stash.issue.StashUser;
 
@@ -55,8 +56,20 @@ public class StashIssueReportingPostJob implements PostJob, BatchComponent {
       LOGGER.error("Unable to push SonarQube report to Stash: {}", e.getMessage());
       LOGGER.debug(STACK_TRACE, e);
     }
+
+    validateResults(projectIssues);
   }
 
+  private void validateResults(ProjectIssues projectIssues) {
+    if (config.shouldThrowOnAnyIssue()) {
+      List<Issue> issueReport = stashRequestFacade.extractIssueReport(projectIssues);
+      if (issueReport.size() != 0) {
+        LOGGER.error("Break the build on any issue. So just throw an exception.");
+
+        throw new IllegalStateException("Break the build on any issue.");
+      }
+    }
+  }
 
   /*
   * Second part of the code necessary for the executeOn() -- squid:S134
@@ -69,7 +82,6 @@ public class StashIssueReportingPostJob implements PostJob, BatchComponent {
 
       // SonarQube objects
       List<Issue> issueReport = stashRequestFacade.extractIssueReport(projectIssues);
-
 
       StashUser stashUser = stashRequestFacade.getSonarQubeReviewer(stashCredentials.getLogin(), stashClient);
 
@@ -142,7 +154,6 @@ public class StashIssueReportingPostJob implements PostJob, BatchComponent {
       }
     }
   }
-
 
   /*
   *  Custom exception to keep nested if statements under control

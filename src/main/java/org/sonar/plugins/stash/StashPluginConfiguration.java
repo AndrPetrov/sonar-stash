@@ -73,6 +73,10 @@ public class StashPluginConfiguration implements BatchComponent {
   public boolean canApprovePullRequest() {
     return settings.getBoolean(StashPlugin.STASH_REVIEWER_APPROVAL);
   }
+
+  public boolean shouldThrowOnAnyIssue() {
+    return settings.getBoolean(StashPlugin.STASH_TROW_ON_ISSUE);
+  }
   
   public boolean resetComments() {
     return settings.getBoolean(StashPlugin.STASH_RESET_COMMENTS);
