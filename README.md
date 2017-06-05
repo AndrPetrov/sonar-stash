@@ -1,3 +1,8 @@
+# The difference with original repository
+
+1. This version works well with the newest jenkins+sonarqube versions
+2. Added `-Dsonar.stash.throw.on.issue=true` property to break the build on any found issue
+
 # SonarQube Stash (BitBucket) plugin
 
 [![Build Status](https://travis-ci.org/AmadeusITGroup/sonar-stash.svg?branch=master)](https://travis-ci.org/AmadeusITGroup/sonar-stash/branches)
